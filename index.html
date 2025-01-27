@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Time from API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+            color: white;
+            margin-top: 20%;
+        }
+        .time {
+            font-size: 3em;
+        }
+        .location {
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="location" id="location"></div>
+    <div class="time" id="timeDisplay"></div>
+
+    <script>
+        async function fetchTime() {
+            try {
+                // Get the user's time zone or a default location (for example, "America/New_York")
+                const response = await fetch('http://worldtimeapi.org/api/timezone/America/New_York');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch time');
+                }
+                
+                const data = await response.json();
+                
+                const time = data.datetime;
+                const location = data.timezone;
+                
+                const formattedTime = new Date(time).toLocaleTimeString(); // Format the time
+                
+                // Display the location and time
+                document.getElementById('location').innerText = `Location: ${location}`;
+                document.getElementById('timeDisplay').innerText = formattedTime;
+            } catch (error) {
+                document.getElementById('timeDisplay').innerText = 'Error fetching time.';
+                console.error(error);
+            }
+        }
+
+        // Initial call to fetch time
+        fetchTime();
+        
+        // Optionally, refresh the time every minute
+        setInterval(fetchTime, 60000);
+    </script>
+</body>
+</html>
