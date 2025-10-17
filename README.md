@@ -1,2 +1,2 @@
 # Time_display
-This repository will have the code to display the local time on kindle device
+This is a project to display my local time on Amazon Kindle.
